@@ -1,40 +1,43 @@
-console.log("Hola mundo")
+let humanScore = 0;
+let computerScore = 0;
+
 function getcomputerchoise() {
     let eleccion = ["piedra","papel","tijeras"];
     let random = Math.floor((Math.random() * eleccion.length));
     return eleccion[random];
 }
-function gethumanchoise() {
-    let eleccion = prompt("ingrese cuál va a ser su elección");
-    return eleccion;
-}
-let humanScore = 0;
-let computerScore = 0;
-while(humanScore < 5 && computerScore <5) {
-    let humano = gethumanchoise();
-    let computadora = getcomputerchoise();
-    console.log(`Tu elección es ${humano} y la computadora eligió ${computadora}`);
 
-    if((humano === "piedra" && computadora === "tijeras") ||
-     (humano === "tijeras" && computadora === "papel") || 
-     (humano === "papel" && computadora === "piedra")) {
-        humanScore +=1;
-        console.log(`Ganaste ${humanScore}`);
+function playRound(playerChoice, computerChoice) {
+    if((playerChoice === "piedra" && computerChoice === "tijeras") 
+        || (playerChoice === "tijeras" && computerChoice === "papel") 
+        || (playerChoice === "papel" && computerChoice === "piedra")) {
+            humanScore +=1;
+            return "Ganaste";
     }
     else {
-        if((computadora === "piedra" && humano === "tijeras")
-             || (computadora === "tijeras" && humano === "papel")
-             || (computadora === "papel" && humano === "piedra")) {
-            computerScore +=1;
-            console.log(`Perdiste ${computerScore}`);
+        if((computerChoice === "piedra" && playerChoice === "tijeras")
+             || (computerChoice === "tijeras" && playerChoice === "papel")
+             || (computerChoice === "papel" && playerChoice === "piedra")) {
+                computerScore +=1;
+                return "Perdiste";
         }
         else {
-            console.log("empate");
+            return "Empate";
         }
     }
 }
-if (humanScore === 5) {
-    console.log("¡Ganaste el juego!");
-} else {
-    console.log("La computadora ganó el juego.");
+function ActualizarUi(mensaje) {
+    const resultado = document.getElementById("resultado");
+    resultado.textContent = mensaje;
+}
+function manejarClick(eleccion) {
+  if (humanScore < 5 && computerScore < 5) {
+    const computerChoice = getComputerChoice();
+    const result = playRound(eleccion, computerChoice);
+    if (humanScore === 5) {
+      document.getElementById("resultado").textContent = "¡Ganaste el juego!";
+    } else if (computerScore === 5) {
+      document.getElementById("resultado").textContent = "La computadora ganó el juego.";
+    }
+  }
 }
